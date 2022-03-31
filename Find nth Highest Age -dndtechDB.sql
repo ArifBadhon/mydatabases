@@ -1,6 +1,6 @@
 USE dndtech;
 SELECT * FROM Customers;
-INSERT INTO Customers VALUES('Alex',45,'Manchester','Male');
+
 
 --Find the Oldest customer by City
 SELECT CustomerCity, MAX(CustomerAge) AS OldestPerson FROM Customers
@@ -19,7 +19,7 @@ WHERE CustomerAge NOT IN (SELECT MAX(CustomerAge) FROM Customers);
 SELECT TOP 1 CustomerAge FROM
 (SELECT TOP 2 CustomerAge FROM Customers
 ORDER BY CustomerAge DESC) Result
-ORDER BY CustomerAge;
+ORDER BY CustomerAge ASC;
 
 
 --Select 2nd Highest Age from the customer by using CTE and DENSE_RANK()
