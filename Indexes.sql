@@ -14,3 +14,6 @@ ON Customers(LastName);
 
 CREATE NONCLUSTERED COLUMNSTORE INDEX idx_SuppNmCity
 ON Suppliers(SupplierName, SupplierCity);
+
+Execute dndtech.sys.sp_helpindex customers;
+Execute sp_helpindex Suppliers;
