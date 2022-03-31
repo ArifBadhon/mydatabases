@@ -17,17 +17,17 @@ END
 EXEC ShowCustByGender 'Male'
 
 EXEC ShowCustByGender 'Female'
-EXEC ShowCustByGender
+
 
 ------------------------------------------STORED PROCEDURE FOR INSERTING ROWS--------------------------------------------
 -------------------------------------------------------------------------------------------------------------------------
-
+DROP PROC sp_InsertCust
 CREATE PROC sp_InsertCust @cid int =1
 AS
 WHILE @cid <=5
 BEGIN
-INSERT INTO Customer
-VALUES ('xxx','42','YYY','ZZZ')
+INSERT INTO Customers
+VALUES (42,'XXX','YYY','ZZZ','AAA')
 --SELECT * FROM Customers
 --WHERE Customers.CustomerNo = @cid
 SET @cid +=1
@@ -52,29 +52,31 @@ WHERE ProductNo=@pid
 SET @pid=@pid+1
 END
 
-EXEC sp_DelProd 17   --CALL A PROCEDURE BY ECEC------------------
+EXEC sp_DelProd 17   --CALL A PROCEDURE BY EXEC------------------
 DROP PROC sp_DelProd--TO DELETE A PROCEDURE WE USE DROP------------
 
 SELECT * FROM Customers;
 
-
+-----DROP PROC sp_InsertCustHd
 CREATE PROC sp_InsertCustHd 
 AS
 BEGIN
 DECLARE @cid int =1
-WHILE @cid <=100
+WHILE @cid <=10
 BEGIN TRANSACTION
 INSERT INTO Customers
-VALUES ('xxx','23','YYY','ZZZ')
+VALUES (42,'XXX','YYY','ZZZ','AAA')
 --SELECT * FROM Customers
 --WHERE Customers.CustomerNo = @cid
 SET @cid +=1
 COMMIT TRANSACTION
 END
 
+EXEC sp_InsertCustHd
+
 SELECT * FROM Customers
 INSERT INTO Customers
-VALUES ('xxx','33','YYY','ZZZ')
+VALUES (42,'XXX','YYY','ZZZ','AAA')
 INSERT INTO Products
 VALUES ('zzz',33.55,2)
 
@@ -202,7 +204,7 @@ END CATCH
 
 
 SELECT * FROM Products;
-----------------------------15/12/18-------------------------
+
 CREATE PROC sp_DelCus (@Cid int)
 AS
 BEGIN
