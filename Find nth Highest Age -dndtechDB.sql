@@ -30,3 +30,57 @@ FROM Customers
 )
 SELECT TOP 1 CustomerAge FROM Result
 WHERE Age_Rank=2;
+
+-------------------ROW_NUMBER(),NTILE(),RANK(),DENSE_RANK() Functions-------------------
+
+SELECT LastName, Gender, CustomerAge,
+ROW_NUMBER() OVER (ORDER BY CustomerAge DESC) AS [ROWNUMBER],
+NTILE(4) OVER (ORDER BY CustomerAge DESC) AS [NTILE],--NTILE DIVIDES ROWS IN 4 TILE 
+RANK() OVER (ORDER BY CustomerAge DESC) AS [RANK],
+DENSE_RANK() OVER (ORDER BY CustomerAge DESC) AS [DENSE_RANK]
+FROM Customers;
+
+---------------------BY USING CTE-------------------------
+WITH Result AS
+(
+SELECT LastName, Gender, CustomerAge, 
+RANK() OVER (ORDER BY CustomerAge DESC) AS [AGE_RANK],
+DENSE_RANK() OVER (ORDER BY CustomerAge DESC) AS [DENSERANK]
+FROM Customers
+)
+SELECT * FROM Result WHERE DENSERANK =2;
+
+----------------------USING PARTITION
+SELECT LastName, Gender, CustomerAge, 
+RANK() OVER (PARTITION BY Gender ORDER BY CustomerAge DESC) AS [RANK],
+DENSE_RANK() OVER (PARTITION BY Gender ORDER BY CustomerAge DESC) AS [DENSE_RANK]
+FROM Customers;
+------------------------------------------CTE
+WITH Result AS
+(
+SELECT LastName, Gender,  CustomerAge, 
+LAG(CustomerAge) OVER (PARTITION BY Gender ORDER BY CustomerAge DESC) AS [LAG],
+LEAD(CustomerAge) OVER (PARTITION BY Gender ORDER BY CustomerAge DESC) AS [LEAD],
+RANK() OVER (PARTITION BY Gender ORDER BY CustomerAge DESC) AS [SALARY_RANK],
+DENSE_RANK() OVER (PARTITION BY Gender ORDER BY CustomerAge DESC) AS [SALARY_DENSE_RANK],
+FIRST_VALUE(CustomerAge) OVER (PARTITION BY Gender ORDER BY CustomerAge DESC 
+ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS [FIRST_VALUE],
+LAST_VALUE(CustomerAge) OVER (PARTITION BY Gender ORDER BY CustomerAge DESC 
+ROWS BETWEEN CURRENT ROW AND UNBOUNDED FOLLOWING) AS [LAST_VALUE]
+FROM Customers
+WHERE Gender='Male'
+)
+SELECT * FROM Result WHERE SALARY_RANK =2;
+
+WITH rankOverAge AS
+(
+SELECT LastName, Gender, CustomerAge,
+DENSE_RANK() OVER(ORDER BY CustomerAge) AS [RANK_BY_AGE]
+FROM Customers
+)
+SELECT * FROM rankOverAge WHERE CustomerAge Between 20 and 50;
+
+
+EXEC SYS.sp_help N'dbo.Customers';
+EXEC SYS.sp_databases;
+EXEC SYS.sp_tables;
