@@ -15,7 +15,7 @@ WHERE CustomerAge < (SELECT MAX(CustomerAge) FROM Customers);
 SELECT MAX(CustomerAge) FROM Customers
 WHERE CustomerAge NOT IN (SELECT MAX(CustomerAge) FROM Customers);
 
---Select 2nd Highest Age from the customer by using TOP Function
+--Select 2nd Highest Age from the customer by using TOP Function and sub query
 SELECT TOP 1 CustomerAge FROM
 (SELECT TOP 2 CustomerAge FROM Customers
 ORDER BY CustomerAge DESC) Result
@@ -79,6 +79,23 @@ DENSE_RANK() OVER(ORDER BY CustomerAge) AS [RANK_BY_AGE]
 FROM Customers
 )
 SELECT * FROM rankOverAge WHERE CustomerAge Between 20 and 50;
+----------------------------------------------------------------------------------
+---------------------------LIKE/CHARINDEX/LEFT System Functions-------------------
+Select * From Products
+Where UnitPrice Between 10 and 40
+AND SupplierNo Not In (2)
+AND ProductName Like('S%');
+
+SELECT ProductName FROM Products
+WHERE UnitPrice>10
+--AND SupplierNo NOT IN (1)
+AND ProductName LIKE ('H%');
+
+SELECT ProductName FROM Products
+WHERE UnitPrice>10
+--AND SupplierNo NOT IN (1)
+--AND CHARINDEX('H', ProductName)=1;
+AND LEFT(ProductName,1)='H';
 
 
 EXEC SYS.sp_help N'dbo.Customers';
