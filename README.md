@@ -4,4 +4,5 @@ Demo data inserted for query practice purpose.
 Create and Modify Tables.
 I have ignore creating Schema.
 I had practise some system and user define functions.
-View, Store Procedures, Indexes, Triggers, Table Variables, Drived Table, CTE, Transaction are created.
+View, Store Procedures, Indexes, Triggers, Table Variables,
+Drived Table, CTE, Transaction, Sub Queries are created.
