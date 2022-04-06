@@ -97,6 +97,20 @@ WHERE UnitPrice>10
 --AND CHARINDEX('H', ProductName)=1;
 AND LEFT(ProductName,1)='H';
 
+----------------------------------------------------------------------------------
+------------------------------Intersect/Union/Union All/Except----------Operators
+Select CustomerCity From Customers
+INTERSECT 
+--UNION ALL
+--UNION
+Select SupplierCity From Suppliers
+Order By CustomerCity;
+
+-----Select the Customers who have not placed any order
+Select CustomerNo From Customers
+--UNION
+EXCEPT
+Select CustomerNo From Orders;
 
 EXEC SYS.sp_help N'dbo.Customers';
 EXEC SYS.sp_databases;
